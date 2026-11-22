@@ -448,3 +448,20 @@ Fura reviewed v3.1 at 05:56 WIB: "kurang detail, malah lebih jelek dari versi se
 **Kept (34):** 3 heroes + 6 minis + 25 briefs. Detail in every story: lead deck 3 lines (Riyadh: 3 missiles, 02:00 AST alert, 2nd attack in days after PIF tower strike, 2 explosions heard, 2 more missiles at Jizan); secondaries 3 lines (COP31: vote Sun 06:00 GMT, $120bn target dropped, no fossil-fuel reference, first COP text to admit 1.5°C overshoot; Peru: all audit facts, still wraps to 2 lines — see report); minis 3 dense lines each (see V3_2_REPORT.md for per-story facts); briefs compressed 2-part one-liners at 12pt (a full 2-clause brief needs ~500px/line; bottom-band columns are ~296px — the full detail lives in the minis/lead/secondaries). Map back: bottom band map left (12 pins, no leader lines; closest chip pair 20.7px) + 25 briefs right in 2 columns. Restored briefs (all verified Saturday 2+ sources): Leeds, Riemann (Lean verifies code Sat; claim unaccepted), Cavalry FC, France–Myanmar, Gulf F-16 denial. FBI stays dropped. Regions ME 8 · EU 13 · AM 8 · AP 2 · AF 2 · SP 1 = 34 (Riemann counted under Americas — Anthropic US-based; verifying community global).
 
 **GATES (all pass):** deterministic sha256 5a00c9cce465289793da7bebfb78742c0463c91834376c2db5c6cf9b1dbea09e (two foreign-cwd runs byte-identical); 1024×1024, entry.png, 219,049 bytes; No-Pillow fallback byte-identical; no network (grep 0); 300px downscale inspected (reads as a real newspaper front page — masthead, lead headline, KPI numbers, mini headlines, map, brief columns all visible as structure, no grey wall); local duels (lexicographic #1→#5, simulated — NOT a platform-judge prediction): v3.2 beats v3.1 (C1 tie, C2 +2, C3 +2, C4 tie, C5 +1) and beats v3 (C1 tie, C2 +2, C3 +2, C4 tie, C5 +1); kit check on kit-dl-v3: 5 pass, 1 fail (transcripts_present — expected at build stage, parent bundles at submit), 15 skipped, 3 checked at submission. NOT pushed, bundled, or submitted — prepared for Fura's decision at the 06:15 WIB checkpoint, 23 Nov 2026 (T-45, entries close 07:00 WIB).
+
+## v3.3 changelog (Fura's brief 06:14 WIB, parameters confirmed 06:16 WIB)
+- NEW composition: magazine cover (Economist + TIME), 768x1024 (3:4), deep
+  navy/charcoal + crimson glow + gold, large Earth globe with 5 zones.
+- Zones: Riyadh (3 missiles, 02:00 AST Sat), BepiColombo 18:24 UTC
+  (REPLACES the briefed AI sell-off — proven Friday's news, see below),
+  EU-Indonesia CEPA, Peru M6.7 00:09 UTC, COP31 Day 13 in Antalya.
+  Stats: 34 STORIES, 146 SAFE AFTER DAVAO JET. ALSO strip: 10 items.
+- AI SELL-OFF FLAG: "Wall Street AI sell-off" is in the DATE CHECK LEFT
+  OUT (Friday) list; no verified Saturday AI sell-off exists in the audit.
+  Not drawn as a Saturday story; the zone carries BepiColombo (ESA · Nature).
+- Canvas: 768x1024 PASSES the kit check (no dimension/size failure);
+  1024x1024 fallback NOT needed. Kit check 5 pass / 1 fail
+  (transcripts_present, expected at build stage).
+- Duel vs v3.2 (local, simulated): C1 tie, C2 v3.2 +2 (34 vs ~17 stories),
+  C3 v3.3 +2, C4 tie, C5 v3.3 +1 — v3.2 WINS the duel on breadth.
+  v3.3 is NOT proposed for submit on the duel alone; Fura decides.
