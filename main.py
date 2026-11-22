@@ -691,10 +691,12 @@ def draw_heroes(d):
         x0 = 12 + i * (cw + 8)
         y0, ch = 240, 192
         rr(d, [x0, y0, x0 + cw, y0 + ch], 6, fill=WHITE, outline=LINE, width=1)
-        SCENES[h["scene"]](d, x0 + 1, y0 + 1, cw - 2, 92)
-        num_chip(d, x0 + cw - 20, y0 + 78, h["pin"], r=10)
+        # scene shortened 92 -> 82 so the 2-line body clears the badge row:
+        # at 92 the body ink ran 5px under the badge on heroes 1 and 3
+        SCENES[h["scene"]](d, x0 + 1, y0 + 1, cw - 2, 82)
+        num_chip(d, x0 + cw - 20, y0 + 68, h["pin"], r=10)
         tx = x0 + 12
-        ty = y0 + 100
+        ty = y0 + 90
         head_lines = wrap(d, h["head"], FB(19), cw - 24)
         draw_lines(d, tx, ty, head_lines[:2], FB(19), INK, 22)
         by = ty + len(head_lines[:2]) * 22 + 4
@@ -715,13 +717,20 @@ def draw_minis(d):
         y0 = 456 + row * (chh + 4)
         rr(d, [x0, y0, x0 + cw, y0 + chh], 5, fill=WHITE, outline=LINE,
            width=1)
-        # icon tile top-left, map-number chip top-right
+        # icon tile top-left; map-number chip on the tile's top-left corner
+        # (the old top-right spot overlapped headline line 1)
         rr(d, [x0 + 8, y0 + 8, x0 + 48, y0 + 48], 4, fill=m["tint"])
         ICONS[m["icon"]](d, x0 + 10, y0 + 10, 36, c1=m["ic1"], c2=m["ic2"])
-        num_chip(d, x0 + cw - 16, y0 + 16, m["pin"], r=9)
+        num_chip(d, x0 + 12, y0 + 12, m["pin"], r=9)
         hx = x0 + 54
-        head_lines = wrap(d, m["head"], FB(12), cw - 54 - 10)
-        draw_lines(d, hx, y0 + 9, head_lines[:3], FB(12), INK, 14)
+        # headline font drops a point only when 3 lines cannot hold the
+        # words (F1: "POLE" was the 4th line); wording is never changed
+        hf = FB(12)
+        head_lines = wrap(d, m["head"], hf, cw - 54 - 10)
+        if len(head_lines) > 3:
+            hf = FB(11)
+            head_lines = wrap(d, m["head"], hf, cw - 54 - 10)
+        draw_lines(d, hx, y0 + 9, head_lines[:3], hf, INK, 14)
         body_lines = wrap(d, m["body"], FR(10), cw - 16)
         draw_lines(d, x0 + 8, y0 + 56, body_lines[:3], FR(10), BLACK, 12.5)
         fy = y0 + chh - 21
