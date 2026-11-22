@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
-"""news-image-20261121 v2.2 — Saturday-first broadsheet, de-cluttered.
+"""news-image-20261121 v3 — Saturday-first broadsheet, scenes everywhere.
 
 Draws one 1024x1024 image summing up Saturday 21 November 2026.
-21 stories (was 35 in v2.1): the 22-line micro-text wall is gone, replaced
-by 8 large-font bullets beside a widened map; mini headlines are +25%
-bigger and span the full card width. Flat vector only: every illustration
-is drawn in code with Pillow. No network, no randomness, no timestamps:
-two runs write identical bytes.
+24 stories (was 21 in v2.2): the 10 minis carry full-width flat-vector
+scene strips instead of abstract icon tiles, and 3 consequential one-liners
+are restored from the v2.1 audit (Sparta II, Kharkiv, Brazil Wolbachia).
+Flat vector only: every illustration is drawn in code with Pillow. No
+network, no randomness, no timestamps: two runs write identical bytes.
 
-Visual system (Fura's direction, 22 Nov 22:56 WIB, after studying the #1
-entry's readability): broadsheet newspaper — warm cream paper, black
-serif display masthead (DejaVu Serif Bold, vendored beside the existing
-DejaVu Sans fonts, same family), thin rules between sections, big-number
-KPI strip with labels, serif hero headlines, even mini grid, roomy map.
-Readability devices only — no content, text, or layout copied from any
-other entry; every story, number, and source is our own v2.1 audit.
+Visual system (kept from v2.2): broadsheet newspaper — warm cream paper,
+black serif display masthead (DejaVu Serif Bold, vendored beside the
+existing DejaVu Sans fonts, same family), thin rules between sections,
+big-number KPI strip with labels, serif hero headlines, even mini grid,
+roomy map. Readability devices only — no content, text, or layout copied
+from any other entry; every story, number, and source is our own v2.1 audit.
+
+Capacity note (honest): ~30 stories does not fit this canvas at readable
+size — 17 bullets at 12pt need ~255px of vertical space and the map+bullets
+band is 176px. v3 ships 24, the largest count that still reads cleanly at
+300px; forcing 30 would rebuild the grey wall that killed v2.1.
 
 Stdlib-only fallback: when Pillow is unavailable (the grading container
 has no Pillow), copy the vendored entry.png beside this file to the output.
@@ -429,6 +433,16 @@ PINS = [
     (-77.0, 38.9, 10, -14, 11),  # Washington
     (50.6, 26.2, 34, 16, 12),    # Manama, Bahrain
     (-108.5, 25.6, -14, 12, 13),  # Guasave, Mexico
+    # v3: 3 restored-bullet pins (16 pinned stories). Chip offsets chosen
+    # so every chip centre keeps >=18px from its nearest neighbour
+    # (verified by script). 19 pins was attempted first — the Europe/ME
+    # cluster tangled into a leader-line web — so Gaza, Khasab and
+    # Kharkiv were removed again for legibility; their stories stay
+    # numbered on-card. The other 5 bullets have no single mappable
+    # location and are numbered on-card only.
+    (47.8, 30.5, -28, 28, 15),   # Hartha, Iraq
+    (24.0, 59.5, -52, 14, 22),   # Sparta II, Gulf of Finland
+    (-47.9, -15.8, 30, -24, 24),  # Brasilia (Brazil dengue trial)
 ]
 
 
@@ -516,9 +530,10 @@ ICONS = {"missile": icon_missile, "quake": icon_quake, "cop": icon_cop,
          "robot": icon_robot, "f1": icon_f1, "flags": icon_flags,
          "cuffs": icon_cuffs}
 
-# v2.2: the 22-line ALSO wall is DELETED (it read as grey blur at 300px).
-# 8 large-font bullets only — the most consequential one-liners, each one
-# line at 15pt. FBI dropped (borderline Friday dating, per Fura).
+# v3: 11 large-font bullets (was 8 in v2.2) — the 3 most consequential
+# restored one-liners from the v2.1 audit (Sparta II, Kharkiv, Brazil),
+# each verified Saturday with 2+ primary sources. FBI stays dropped
+# (borderline Friday dating). One line each at 12pt, 14px spacing.
 BULLETS = [
     "GAZA — 3 killed in strike on food vehicle",
     "IRAQ — Hartha power plant fire kills 4, injures ~30",
@@ -528,6 +543,9 @@ BULLETS = [
     "HARDEN 51 — passes Kobe for 3rd-most 50-pt games",
     "BOLSONARO in ICU with bowel obstruction",
     "INDIA — 11 dead, 180+ in hospital after toxic alcohol",
+    "SPARTA II — cargo ship ablaze off Finland; 16 crew evacuated",
+    "KHARKIV — drone strikes injure 11, incl. 2 children",
+    "BRAZIL — Wolbachia cuts dengue ~69%",
 ]
 
 # v2.1: Saturday-UTC ticks ONLY. The two FRI ticks (16:08 Davao, 23:00 Riyadh)
@@ -551,7 +569,7 @@ NUMBERS = [
     ("146", "SAFE AFTER DAVAO JET"),
     ("13", "COP31 — DAY 13"),
     ("11", "KILLED IN SINALOA RAID"),
-    ("60", "HOUTHI TARGETS HIT"),
+    ("69%", "DENGUE CUT IN BRAZIL"),
 ]
 
 # v2.2: DATE CHECK slimmed to 2 short lines (was a full two-column box).
@@ -647,7 +665,7 @@ def draw_masthead(d):
     d.text((1012 - 14 - d.textlength(r, font=FB(11)), 14), r, font=FB(11),
            fill=MUTED)
     d.text((22, 30), "Saturday 21 November 2026", font=SB(48), fill=INK)
-    r2 = "21 STORIES"
+    r2 = "24 STORIES"
     d.text((1012 - 14 - d.textlength(r2, font=SB(22)), 32), r2,
            font=SB(22), fill=INK)
     d.text((1012 - 14 - d.textlength("EVERY STORY VERIFIED", font=FR(10)),
@@ -687,8 +705,8 @@ def draw_region(d):
     d.rectangle([12, 170, 1012, 190], fill=INK)
     d.rectangle([22, 177, 30, 185], fill=GOLD)
     d.text((38, 175),
-           "REGIONS — MIDDLE EAST 6  ·  EUROPE 5  ·  AMERICAS 6  ·  "
-           "ASIA-PACIFIC 2  ·  AFRICA 1  ·  SPACE 1    —    21 STORIES IN ALL",
+           "REGIONS — MIDDLE EAST 6  ·  EUROPE 7  ·  AMERICAS 7  ·  "
+           "ASIA-PACIFIC 2  ·  AFRICA 1  ·  SPACE 1    —    24 STORIES IN ALL",
            font=FB(11), fill=WHITE)
 
 
@@ -742,12 +760,28 @@ def draw_heroes(d):
         d.text((tx + bw + 8, fy + 2), h["src"], font=FR(9), fill=MUTED)
 
 
+def mini_scene(d, x, y, w, h, m):
+    """Flat-vector scene strip for a mini card (v3): tint sky, darker
+    ground, the story's own icon drawn large at centre, fixed stars.
+    The icon is the mini's existing flat-vector drawing, reused at scene
+    scale — no new artwork, no photo, no painterly art."""
+    d.rectangle([x, y, x + w, y + h], fill=m["tint"])
+    ground = tuple(int(c * 0.70) for c in m["tint"])
+    d.rectangle([x, y + h - 10, x + w, y + h], fill=ground)
+    for sx, sy in [(0.06, 0.22), (0.16, 0.55), (0.86, 0.28), (0.94, 0.60),
+                   (0.78, 0.15)]:
+        d.ellipse([x + w * sx - 1, y + h * sy - 1, x + w * sx + 1,
+                   y + h * sy + 1], fill=m["ic2"])
+    s = 40
+    ICONS[m["icon"]](d, x + (w - s) / 2, y + 3, s, c1=m["ic1"], c2=m["ic2"])
+
+
 def draw_minis(d):
-    # v2.2: roomy legibility rebuild. Headlines span the FULL card width
-    # (icon tile + badge share the top row) at FB15 (+25% vs v2.1's FB12),
-    # 2 lines max; bodies 2 lines at FR11; a 5px region-accent bar tops
-    # each card (v1-style category contrast). Cards are taller (140) with
-    # real whitespace between body and source line.
+    # v3: scene strips on every mini (was a 32px icon tile). Headlines
+    # stay FB15 full width, bodies 2 lines at FR11, source at bottom —
+    # positions unchanged from v2.2; only the tile row becomes a scene.
+    # Number chip + verification badge float ON the scene (like the
+    # heroes' DAY 13 badge floats over the COP scene).
     d.text((14, 442), "THE DAY IN TEN — SATURDAY'S OTHER BIG STORIES",
            font=FB(12), fill=INK)
     cw, chh, gap = 193, 140, 8
@@ -757,12 +791,13 @@ def draw_minis(d):
         y0 = 460 + row * (chh + 4)
         rr(d, [x0, y0, x0 + cw, y0 + chh], 5, fill=CARD, outline=LINE,
            width=1)
+        # v3: full-width scene strip (was a 32px icon tile). Accent bar
+        # draws over the scene's top edge; number chip + badge float on
+        # the scene, top-left and top-right.
+        mini_scene(d, x0 + 1, y0 + 1, cw - 2, 49, m)
         # region accent bar across the card top
         d.rectangle([x0 + 5, y0, x0 + cw - 5, y0 + 5], fill=m["accent"])
-        # icon tile top-left; map-number chip on the tile's top-left corner
-        rr(d, [x0 + 8, y0 + 12, x0 + 44, y0 + 48], 4, fill=m["tint"])
-        ICONS[m["icon"]](d, x0 + 10, y0 + 14, 32, c1=m["ic1"], c2=m["ic2"])
-        num_chip(d, x0 + 12, y0 + 16, m["pin"], r=9)
+        num_chip(d, x0 + 14, y0 + 16, m["pin"], r=9)
         # verification badge top-right, beside the tile
         f_b = FB(9)
         btw = d.textlength(m["badge"], font=f_b)
@@ -796,11 +831,14 @@ def draw_minis(d):
         d.text((x0 + 8, y0 + 124), m["src"], font=FR(9), fill=MUTED)
 
 def draw_map_bullets(d):
-    # v2.2: map WIDENED (was 330px, now 548px) + 8 LARGE-font bullets
-    # (was 22 micro lines). Both panels sit in the same 744-924 band.
+    # v3: map keeps its widened 548px; bullets grow 8 -> 11 at 12pt with
+    # 14px spacing (was 15pt/18px). Both panels sit in the same 748-924
+    # band. 16 pins (13 pictured + 3 restored bullets with distinct
+    # locations); the other 8 bullets have no single mappable location
+    # and are numbered on-card only.
     # ---- left: numbered world map, widened
     rr(d, [12, 748, 560, 924], 5, fill=CARD, outline=LINE, width=1)
-    d.text((22, 756), "WHERE IT HAPPENED — 13 PINNED STORIES", font=FB(11),
+    d.text((22, 756), "WHERE IT HAPPENED — 16 PINNED STORIES", font=FB(11),
            fill=INK)
     mx0, my0, mw, mh = 18, 772, 536, 132
     d.rectangle([mx0, my0, mx0 + mw, my0 + mh], fill=(237, 243, 247))
@@ -810,7 +848,9 @@ def draw_map_bullets(d):
     for lon, lat, dx, dy, n in PINS:
         px, py = ll2xy(lon, lat, mx0, my0, mw, mh)
         cx, cy = px + dx, py + dy
-        d.line([px, py, cx, cy], fill=INK, width=1)
+        # v3: leader lines in muted blue-grey (was black INK) so the
+        # Europe/ME cluster reads as pins, not a black web.
+        d.line([px, py, cx, cy], fill=(143, 169, 188), width=1)
         d.ellipse([px - 3, py - 3, px + 3, py + 3], fill=RED,
                   outline=WHITE, width=1)
         # pin circles r7 with small digits (v2.1): every number stays
@@ -820,26 +860,22 @@ def draw_map_bullets(d):
            "6 DARMSTADT = BEPICOLOMBO CONTROL — THE CRAFT IS AT MERCURY",
            font=FR(8.5), fill=MUTED)
 
-    # ---- right: MORE ON SATURDAY, 8 large bullets, one line each
+    # ---- right: MORE ON SATURDAY, 11 bullets, one line each at 12pt
     rr(d, [568, 748, 1012, 924], 5, fill=CARD, outline=LINE, width=1)
-    d.text((580, 756), "MORE ON SATURDAY — 8", font=FB(11), fill=INK)
+    d.text((580, 756), "MORE ON SATURDAY — 11", font=FB(11), fill=INK)
     for i, item in enumerate(BULLETS):
-        y0 = 778 + i * 18
+        y0 = 772 + i * 14
         if " — " in item:
             head, rest = item.split(" — ", 1)
             lead = head + " — "
         else:
             head, rest = item.split(" ", 1)
             lead = head + " "
-        f1, f2 = FB(15), FR(15)
+        f1, f2 = FB(12), FR(12)
         total = (d.textlength(lead, font=f1)
                  + d.textlength(rest, font=f2))
-        if total > 412:
-            f1, f2 = FB(14), FR(14)
-            total = (d.textlength(lead, font=f1)
-                     + d.textlength(rest, font=f2))
-        if total > 412:
-            f1, f2 = FB(13), FR(13)
+        if total > 424:
+            f1, f2 = FB(11), FR(11)
         d.text((580, y0), "• ", font=f2, fill=RED)
         bx = 580 + d.textlength("• ", font=f2)
         d.text((bx, y0), lead, font=f1, fill=INK)

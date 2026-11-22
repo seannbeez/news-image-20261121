@@ -365,3 +365,64 @@ on kit-dl-v3: 4 pass (competition_open, snapshot, license_osi, entrypoint),
 submit), 14 skipped, 5 checked at submission. NOT pushed, bundled, or
 submitted — prepared for Fura's final approval at the 06:15 WIB
 checkpoint, 23 Nov 2026 (T-45, entries close 07:00 WIB).
+
+## v3 — 23 Nov 2026 (emergency parallel build, Fura approved 05:30 WIB)
+
+Built in parallel with the v2.2 dev-score wait; hard deadline 06:10 WIB for the
+06:15 T-45 checkpoint. NOT pushed, bundled, or submitted — prepare only.
+
+**Hypothesis (Fura's brief + evidence):** v2.2's newspaper system is good, but it
+lacks two Top-10 DNA traits — (1) a drawn scene on EVERY card (Top 10 all have
+13–16 scenes/page; our entries used abstract icons), and (2) breadth (Top 50's
+smallest entry has 29 stories; v2.2 has 21). v3 combines the newspaper system
+with scenes everywhere and more stories, without re-creating the grey wall.
+
+**Capacity finding (honest, before coding):** ~30 stories does NOT fit this
+canvas at readable size — 17 bullets at 12pt need ~255px of vertical space and
+the map+bullets band is 176px. v3 ships 24, the largest count that still reads
+cleanly at 300px; forcing 30 would rebuild the grey wall that killed v2.1.
+
+**Kept (24):** 3 heroes + 10 minis (unchanged from v2.2) + 11 bullets. Restored
+from the v2.1 audit (all verified Saturday, 2+ primary sources): Sparta II
+(cargo ship ablaze, Gulf of Finland; 16 crew evacuated — Reuters, Finnish
+Defence Forces, WION, Al Jazeera), Kharkiv (drone strikes injure 11, incl. 2
+children — Ukraine SES via Ukrinform/UNITED24), Brazil Wolbachia (dengue +
+chikungunya ~69% cut in 5,700-child trial — AP; audit notes 2+ sources).
+FBI stays dropped (borderline Friday dating). KPI #6 is now 69% DENGUE CUT IN
+BRAZIL (was 60 Houthi targets hit; the Houthi story stays as mini #7).
+Region recount: ME 6 · EU 7 · AM 7 · AP 2 · AF 1 · SP 1 = 24.
+
+**Scenes:** every mini card now carries a full-width flat-vector scene strip
+(tint sky + darker ground + the story's own icon drawn large at centre +
+fixed stars), replacing the 32px icon tile. Number chip + verification badge
+float ON the scene (like the heroes' DAY 13 badge). Headlines stay FB15,
+bodies 2 lines, source line — no vertical change anywhere.
+
+**Numbering/pins:** all 24 stories numbered on their cards (heroes 1–3, minis
+4–13, bullets 14–24). Map pins: 16 (13 pictured + Hartha 15, Sparta II 22,
+Brazil 24). 19 pins was attempted first — the Europe/ME cluster tangled into
+a leader-line web — so Gaza, Khasab and Kharkiv were removed again for
+legibility (their stories stay numbered on-card); leader lines are now muted
+blue-grey instead of black. The other 5 bullets (EU budget, EU–Indonesia deal,
+Harden 51, Bolsonaro ICU, India toxic alcohol) have no single mappable location
+and are numbered on-card only. Every chip centre keeps >=18px from its nearest
+neighbour (verified by script; closest pairs 18.5px, 20.5px, 25.0px).
+
+**Criterion #1 discipline unchanged:** zero Friday news, 8-tick pure-Saturday
+timeline, zero "Friday" in news cards, DATE CHECK names Friday as LEFT OUT.
+No new research, no new stories, no single-source items.
+
+**GATES (all pass):** deterministic sha256
+93acf3373ac68fe41442393c74d7546cf5953fcd81292b1a6ed8fe25436bf7ec
+(two foreign-cwd runs byte-identical); 1024×1024, entry.png, 194,692 bytes
+(target ~180–260 KB); No-Pillow fallback byte-identical; no network (grep 0
+matches); 300px downscale inspected (masthead, numbers, hero/mini headlines,
+scenes, map pins, bullets all read as structure, no grey wall); local duels
+(lexicographic #1→#5, simulated — NOT a platform-judge prediction): v3 beats
+v2.2 (C1 tie, C2 +1, C3 +2, C4 tie, C5 +2) and beats v2.1 (C1 tie, C2 −1,
+C3 +4 — decides the duel — C4 +1, C5 +3); kit check on kit-dl-v3: 4 pass
+(competition_open, snapshot, license_osi, entrypoint), 1 fail
+(transcripts_present — expected at build stage, parent bundles at submit),
+14 skipped, 5 checked at submission. NOT pushed, bundled, or submitted —
+prepared for Fura's decision at the 06:15 WIB checkpoint, 23 Nov 2026 (T-45,
+entries close 07:00 WIB).
