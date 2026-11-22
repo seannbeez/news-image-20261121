@@ -109,14 +109,14 @@ def badge(d, x, y, kind):
     return w
 
 
-def num_chip(d, cx, cy, n, r=8, fill=RED):
+def num_chip(d, cx, cy, n, r=8, fill=RED, fs=9):
     """Numbered circle centred on (cx, cy)."""
     d.ellipse([cx - r, cy - r, cx + r, cy + r], fill=fill,
               outline=WHITE, width=1)
-    f = FB(9)
+    f = FB(fs)
     t = str(n)
     tw = d.textlength(t, font=f)
-    d.text((cx - tw / 2, cy - 6.5), t, font=f, fill=WHITE)
+    d.text((cx - tw / 2, cy - fs / 2 - 2), t, font=f, fill=WHITE)
 
 
 # ---------------------------------------------------------------- flat icons
@@ -390,20 +390,22 @@ NZ = [(167, -45), (169, -43), (171, -41), (173, -40), (175, -38), (177, -37),
 CONTINENTS = [NA, GREENLAND, SA, AFRICA, EUROPE, UK, ASIA, AUSTRALIA,
               JAPAN, PHILIPPINES, INDONESIA, NZ]
 
-# map pins: (lon, lat, chip_dx, chip_dy) — chip offset keeps close pins apart
+# map pins: (lon, lat, chip_dx, chip_dy) — chip offset keeps close pins apart.
+# v2.1: Europe-ME cluster (1,3,4,6) and Africa-Yemen cluster (7,8) spread so
+# every chip keeps >=21px from its nearest neighbour at full size.
 PINS = [
-    (46.7, 24.6, 26, -18, 1),    # Riyadh
+    (46.7, 24.6, 32, -22, 1),    # Riyadh
     (-76.0, -11.0, -12, 12, 2),  # Junin, Peru
-    (30.7, 36.9, 28, -20, 3),    # Antalya / COP31
-    (33.4, 47.9, -24, -14, 4),   # Kryvyi Rih
+    (30.7, 36.9, 30, -26, 3),    # Antalya / COP31
+    (33.4, 47.9, -30, -20, 4),   # Kryvyi Rih
     (125.6, 7.1, 4, 12, 5),      # Davao
-    (8.65, 49.9, -30, -14, 6),   # Darmstadt (BepiColombo control)
-    (42.8, 14.8, -28, 20, 7),    # Hodeidah
-    (6.3, 4.9, -14, 12, 8),      # Bayelsa, Nigeria
-    (6.1, 46.2, -32, 8, 9),      # Geneva
+    (8.65, 49.9, -40, -18, 6),   # Darmstadt (BepiColombo control)
+    (42.8, 14.8, -36, 26, 7),    # Hodeidah
+    (6.3, 4.9, -20, 4, 8),       # Bayelsa, Nigeria
+    (6.1, 46.2, -36, 16, 9),     # Geneva
     (-115.1, 36.2, -14, -12, 10),  # Las Vegas
     (-77.0, 38.9, 10, -14, 11),  # Washington
-    (50.6, 26.2, 28, 12, 12),    # Manama, Bahrain
+    (50.6, 26.2, 34, 16, 12),    # Manama, Bahrain
     (-108.5, 25.6, -14, 12, 13),  # Guasave, Mexico
 ]
 
@@ -418,70 +420,65 @@ HEROES = [
     dict(pin=1, badge="CONFIRMED", src="Reuters · AP",
          head="MISSILES INTERCEPTED OVER RIYADH",
          body=("Coalition downs 3 Houthi missiles aimed at the capital in "
-               "a 02:00 alert; second attack in days."),
+               "a 02:00 AST Saturday alert; second attack in days."),
          scene="riyadh"),
     dict(pin=2, badge="CONFIRMED", src="USGS · AP",
          head="M6.7 QUAKE SHAKES PERU",
-         body=("00:09 UTC Sat, 30 km NW of Junín; felt in Lima. 1 dead, "
-               "16 injured (INDECI). Fri evening local."),
+         body=("00:09 UTC Sat, 19:09 local, 30 km NW of Junín. 1 dead, "
+               "16 injured (health ministry); felt in Lima."),
          scene="peru"),
     dict(pin=3, badge="CONFIRMED", src="Reuters",
          head="COP31 DAY 13: DEAL TABLED LATE",
-         body=("Package tabled late Saturday after talks ran past Friday's "
-               "deadline; vote due Sun 06:00 GMT."),
+         body=("Package tabled late Saturday, talks in overtime; vote due "
+               "Sun 06:00 GMT."),
          scene="cop"),
 ]
 
 MINIS = [
-    dict(pin=12, badge="CLAIM", src="Xinhua · Al Jazeera",
+    dict(pin=12, badge="CLAIM", src="Xinhua · Reuters",
          head="IRAN STRIKES AT US BASES IN BAHRAIN",
-         body=("IRGC claims 2 US bases hit, 2 Patriot radars down. Bahrain: "
-               "site ablaze, no injuries."),
+         body=("IRGC claims 2 US bases hit. Bahrain: site ablaze, "
+               "no injuries."),
          icon="radar", tint=(27, 42, 68), ic1=WHITE, ic2=RED),
     dict(pin=4, badge="CONFIRMED", src="CNN · AP",
          head="DOUBLE-TAP HITS ZELENSKYY'S HOMETOWN",
-         body=("Fri night, reported Sat: 2 killed, a boy 7 and a paramedic "
-               "20; 60 wounded, incl. 6 children."),
+         body=("Overnight strike, reported Sat: 2 killed, 60 wounded incl. "
+               "6 children."),
          icon="rescue", tint=(232, 238, 242), ic1=(120, 130, 145), ic2=RED),
     dict(pin=5, badge="CONFIRMED", src="AP · CAAP",
          head="JET IN TROUBLE, ALL 146 SAFE",
-         body=("Air Niugini 767 diverts to Davao on a fire warning; all 146 "
-               "aboard walk off. No injuries."),
+         body=("767 diverts to Davao on fire warning; all 146 safe."),
          icon="plane", tint=(220, 235, 245), ic1=(40, 80, 130), ic2=GREEN),
     dict(pin=6, badge="CONFIRMED", src="ESA · Nature",
          head="BEPICOLOMBO REACHES MERCURY",
-         body=("ESA/JAXA craft enters orbit 18:24 UTC after 8 years — only "
-               "the 2nd ever to circle Mercury."),
+         body=("Enters orbit 18:24 UTC after 8 years — only the 2nd ever."),
          icon="space", tint=(20, 30, 48), ic1=GOLD_LT, ic2=WHITE),
-    dict(pin=7, badge="CONFIRMED", src="Reuters",
-         head="HOUTHIS VOW REVENGE AFTER PORT STRIKES",
-         body=("Threaten Saudi ports, airspace Sat after coalition hit "
-               "Hodeidah port Fri. Toll claims unverified."),
+    dict(pin=7, badge="CONFIRMED", src="Saudi Gazette · Al Jazeera",
+         head="COALITION HITS 60 HOUTHI TARGETS",
+         body=("Coalition hits 60 Houthi targets: Hodeidah, Sanaa, Taiz."),
          icon="ship", tint=(240, 232, 220), ic1=(90, 100, 115), ic2=AMBER),
     dict(pin=8, badge="CONFIRMED", src="AP · Reuters",
          head="BOAT TOLL RISES TO 24 IN BAYELSA",
-         body=("Funeral barge capsized Fri; NEMA says \u226524 dead Sat, 24 "
-               "rescued. Higher local tolls unverified."),
+         body=("Funeral barge capsized; NEMA Sat: \u226524 dead, 24 rescued."),
          icon="boat", tint=(222, 236, 240), ic1=(60, 90, 120), ic2=RED),
     dict(pin=9, badge="CONFIRMED", src="NPR · AFP",
          head="KILLER-ROBOT RULES KICKED 2 YEARS ON",
-         body=("128 states agree at 04:30 Sat to draft a pact by 2028 — no "
-               "promise it binds. ICRC: regret."),
+         body=("128 states agree 03:45 GMT Sat to draft a pact — no promise "
+               "it binds."),
          icon="robot", tint=(236, 238, 240), ic1=(60, 70, 85), ic2=GOLD),
     dict(pin=10, badge="CONFIRMED", src="F1 · FIA",
          head="ANTONELLI FASTEST, VERSTAPPEN GETS POLE",
-         body=("Qualifying, Sat 04:00 UTC: Antonelli 1:33.893, but a grid "
-               "penalty hands pole to Verstappen."),
+         body=("Sat 04:00 UTC: Antonelli fastest; penalty hands pole to "
+               "Verstappen."),
          icon="f1", tint=(245, 230, 225), ic1=RED, ic2=INK),
-    dict(pin=11, badge="CONFIRMED", src="CNN · Reuters",
-         head="TRUMP DEFENDS PUTIN TIES",
-         body=("Trump says Putin wants a deal; Zelensky calls him 'a "
-               "killer'. Moscow rejects NATO guarantees."),
+    dict(pin=11, badge="CONFIRMED", src="AP · Breitbart",
+         head="TRUMP: IRAN WANTS A DEAL",
+         body=("'Not one I'll accept,' Trump says; Netanyahu presses for "
+               "strikes."),
          icon="flags", tint=(235, 238, 242), ic1=WHITE, ic2=RED),
     dict(pin=13, badge="CONFIRMED", src="Reuters · CNN",
          head="'EL CHAPO ISIDRO' CAPTURED",
-         body=("FBI Top-10 fugitive taken in Sinaloa raid, announced Sat; "
-               "11 killed: 4 soldiers, 7 gunmen."),
+         body=("Seized in Sinaloa raid, announced Sat; 11 killed."),
          icon="cuffs", tint=(238, 236, 228), ic1=(120, 130, 145), ic2=GOLD),
 ]
 
@@ -493,39 +490,42 @@ ICONS = {"missile": icon_missile, "quake": icon_quake, "cop": icon_cop,
 
 ALSO = [
     "HARDEN 51 — passes Kobe for 3rd-most 50-pt games",
-    "GAZA — 7 killed despite ceasefire, incl. 3 in aid car",
+    "GAZA — 3 killed in strike on food vehicle",
     "IRAQ — Hartha power plant fire kills 4, injures ~30",
-    "BALTIC — Russian ship Sparta II ablaze after drone hit",
-    "EU — €1.78tn budget keeps €100bn for Ukraine",
-    "UST-LUGA — drones hit Russia's Baltic port",
+    "BALTIC — Sparta II ablaze after drone hit",
+    "EU — €1.58tn budget keeps €100bn for Ukraine",
+    "EU–INDONESIA sign 10-year trade deal in Brussels",
     "KHARKIV — drone strikes injure 11, incl. 2 children",
-    "BALTIYSK — blasts at Russian Baltic Fleet base",
+    "BALTIYSK — blasts reported near Baltic Fleet base",
     "NATO — Rutte vows to defend Poland",
-    "TRUMP weighs new Iran strikes, NYT reports",
-    "POLAND — Gripen failed to down missile in bad weather",
-    "OMAN — tanker hit by mystery projectile (UKMTO)",
+    "RIEMANN — AI proof claim passes Lean checks",
+    "POLAND — Gripen fails to down missile, bad weather",
+    "OMAN — 2 tankers hit near Khasab (UKMTO)",
     "FBI probes apparent intrusion of crime database",
     "IRAN — Araghchi open to 'equitable' US deal",
-    "BAHRAIN demands UN action after Iranian attacks",
-    "SWEDEN summons Russian envoy over Kyiv blast",
-    "DENMARK urges EU-wide travel bans on Russians",
-    "DENMARK expels Moscow attaché over plot",
-    "INDONESIA — train hits minibus, 3 crew hurt",
+    "CAF — $31.2m profit; Infantino backed for re-election",
+    "LEEDS stun Chelsea 4–1 at Stamford Bridge",
+    "BOLSONARO in ICU with bowel obstruction",
+    "INDIA — 11 dead, 180+ in hospital after toxic alcohol",
+    "FRANCE seeks UN action after Myanmar rejects ICJ",
     "CAVALRY FC 3–2 Ottawa — CPL title + double",
     "BRAZIL — Wolbachia mosquitoes cut dengue ~69%",
     "GULF — US denies Iran claim it hit an F-16",
 ]
 
+# v2.1: Saturday-UTC ticks ONLY. The two FRI ticks (16:08 Davao, 23:00 Riyadh)
+# and the "FRI = FRIDAY IN UTC" note are gone; Davao and Riyadh stay as
+# hero/mini cards with honest local-time notes. New tick 03:00 Hartha fire
+# (Reuters: ~6 a.m. local = 03:00 GMT Sat). Geneva corrected 04:30 -> 03:45.
 TIMELINE = [
-    ("FRI 16:08", "DAVAO LANDS", True),
-    ("FRI 23:00", "RIYADH", True),
-    ("00:09", "PERU QUAKE", False),
-    ("04:00", "F1 QUALIFYING", False),
-    ("04:30", "GENEVA DEAL", False),
-    ("15:00", "CHAPO HELD", False),
-    ("18:24", "MERCURY ORBIT", False),
-    ("19:00", "IRAN-BAHRAIN", False),
-    ("23:00", "COP31 DEAL", False),
+    ("00:09", "PERU QUAKE"),
+    ("03:00", "HARTHA FIRE"),
+    ("03:45", "GENEVA DEAL"),
+    ("04:00", "F1 QUALIFYING"),
+    ("15:00", "CHAPO HELD"),
+    ("18:24", "MERCURY ORBIT"),
+    ("~19:00", "IRAN–BAHRAIN"),
+    ("23:00", "COP31 DEAL"),
 ]
 
 NUMBERS = [
@@ -541,7 +541,7 @@ LEFT_OUT = ("Poland missiles · Wall Street sell-off · UK–EU pacts · "
             "Denmark plot · Shenzhen summit · Anthropic debut · GTA VI "
             "launch · Palisades verdict · youth march")
 IN_SAT = ("Riyadh intercepts · Peru 00:09 UTC · COP31 Day 13 · Geneva "
-          "04:30 · BepiColombo 18:24 UTC · Davao landing · Iran–Bahrain · "
+          "03:45 GMT · BepiColombo 18:24 UTC · Davao landing · Iran–Bahrain · "
           "Chapo Isidro · F1 04:00 UTC · Harden 51")
 
 
@@ -657,8 +657,8 @@ def draw_region(d):
     d.rectangle([12, 160, 1012, 180], fill=INK)
     d.rectangle([22, 167, 30, 175], fill=GOLD)
     d.text((38, 165),
-           "REGIONS — MIDDLE EAST 9  ·  EUROPE 13  ·  AMERICAS 9  ·  "
-           "ASIA-PACIFIC 2  ·  AFRICA 1  ·  SPACE 1    —    35 STORIES IN ALL",
+           "REGIONS — MIDDLE EAST 8  ·  EUROPE 12  ·  AMERICAS 10  ·  "
+           "ASIA-PACIFIC 2  ·  AFRICA 2  ·  SPACE 1    —    35 STORIES IN ALL",
            font=FB(11), fill=WHITE)
 
 
@@ -666,20 +666,16 @@ def draw_timeline(d):
     d.rectangle([12, 182, 1012, 238], fill=PANEL2, outline=LINE, width=1)
     d.text((22, 187), "SATURDAY AROUND THE CLOCK — UTC", font=FB(11),
            fill=INK)
-    note = "FRI = FRIDAY IN UTC, SATURDAY LOCAL"
-    d.text((1012 - 12 - d.textlength(note, font=FR(9)), 189), note,
-           font=FR(9), fill=MUTED)
     yline = 204
     d.line([22, yline, 1002, yline], fill=INK, width=2)
-    cw = 1000 / 9
-    for i, (t, label, is_fri) in enumerate(TIMELINE):
+    cw = 1000 / len(TIMELINE)
+    for i, (t, label) in enumerate(TIMELINE):
         cx = 12 + i * cw + cw / 2
-        col = AMBER if is_fri else INK
-        d.ellipse([cx - 4, yline - 4, cx + 4, yline + 4], fill=col,
+        d.ellipse([cx - 4, yline - 4, cx + 4, yline + 4], fill=INK,
                   outline=WHITE, width=1)
         f = FB(10)
         tw = d.textlength(t, font=f)
-        d.text((cx - tw / 2, yline + 7), t, font=f, fill=col)
+        d.text((cx - tw / 2, yline + 7), t, font=f, fill=INK)
         f2 = FB(9)
         tw2 = d.textlength(label, font=f2)
         d.text((cx - tw2 / 2, yline + 20), label, font=f2, fill=INK)
@@ -731,8 +727,9 @@ def draw_minis(d):
             hf = FB(11)
             head_lines = wrap(d, m["head"], hf, cw - 54 - 10)
         draw_lines(d, hx, y0 + 9, head_lines[:3], hf, INK, 14)
+        # v2.1: bodies trimmed to at most 2 short lines for breathing room
         body_lines = wrap(d, m["body"], FR(10), cw - 16)
-        draw_lines(d, x0 + 8, y0 + 56, body_lines[:3], FR(10), BLACK, 12.5)
+        draw_lines(d, x0 + 8, y0 + 56, body_lines[:2], FR(10), BLACK, 12.5)
         fy = y0 + chh - 21
         bw = badge(d, x0 + 8, fy, m["badge"])
         d.text((x0 + 8 + bw + 6, fy + 2), m["src"], font=FR(9), fill=MUTED)
@@ -753,29 +750,33 @@ def draw_map_also(d):
         d.line([px, py, cx, cy], fill=INK, width=1)
         d.ellipse([px - 3, py - 3, px + 3, py + 3], fill=RED,
                   outline=WHITE, width=1)
-        num_chip(d, cx, cy, n, r=8)
+        # v2.1: pin circles shrunk ~15% (r 8 -> 7) with smaller digits so
+        # every number stays readable separately at 300px.
+        num_chip(d, cx, cy, n, r=7, fs=8)
     d.text((22, 856),
            "6 DARMSTADT = BEPICOLOMBO CONTROL — THE CRAFT IS AT MERCURY",
            font=FR(8.5), fill=MUTED)
 
     # ---- right: ALSO ON SATURDAY, 2 columns x 11
+    # v2.1: larger font (11pt) + roomier rows (12.0px); every one-liner is
+    # one dense clause so the block does not read as a grey wall at 300px.
     rr(d, [350, 716, 1012, 870], 5, fill=WHITE, outline=LINE, width=1)
     d.text((362, 724), "ALSO ON SATURDAY — 22 MORE", font=FB(11), fill=INK)
     for i, item in enumerate(ALSO):
         col, row = i // 11, i % 11
         x0 = 362 + col * 326
-        y0 = 742 + row * 11.3
+        y0 = 738 + row * 12.0
         if " — " in item:
             head, rest = item.split(" — ", 1)
             lead = head + " — "
         else:
             head, rest = item.split(" ", 1)
             lead = head + " "
-        f1, f2 = FB(10.5), FR(10.5)
+        f1, f2 = FB(11), FR(11)
         total = (d.textlength(lead, font=f1)
                  + d.textlength(rest, font=f2))
         if total > 312:
-            f1, f2 = FB(10), FR(10)
+            f1, f2 = FB(10.5), FR(10.5)
         d.text((x0, y0), "• ", font=f2, fill=RED)
         bx = x0 + d.textlength("• ", font=f2)
         d.text((bx, y0), lead, font=f1, fill=INK)
@@ -811,12 +812,8 @@ def draw_footer(d):
            font=FB(11), fill=INK)
     d.text((12, y + 32),
            "Sources: Reuters · AP · AFP · USGS · ESA · Xinhua · Al Jazeera · "
-           "CNN · FIA · Formula 1 · Canadian Press · NYT · CENTCOM · INDECI · "
+           "CNN · FIA · Formula 1 · Canadian Press · CENTCOM · UKMTO · "
            "CAAP — full list in RESEARCH.md",
-           font=FR(9.5), fill=MUTED)
-    d.text((12, y + 47),
-           "news-image-20261121 · v2 · Saturday 21 November 2026 · Drawn in "
-           "code — flat vector, no photos · make.fun bounty",
            font=FR(9.5), fill=MUTED)
 
 
