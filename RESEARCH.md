@@ -312,3 +312,56 @@ claim, the other side disputes or has not confirmed it. REPORTED = reported
 Saturday by roundups/wires; figures may still move. Disputed claims are
 attributed, not stated as fact. Friday events are listed in DATE CHECK as
 LEFT OUT, never presented as Saturday news.
+
+## v2.2 CHANGELOG (22 Nov 2026, ~23:00 WIB) — density cut + newspaper restyle
+No new research, no new stories: every kept story is from the v2.1 audit
+above (2+ primary Saturday sources each). The v2.1 audit content stays as
+history; this section records only what v2.2 kept, dropped, and changed.
+
+KEPT (21 stories): 3 heroes (Riyadh, Peru M6.7, COP31 Day 13) + all 10
+minis (Iran–Bahrain, Kryvyi Rih, Davao, BepiColombo, Houthis, Nigeria,
+Geneva, F1, Trump–Iran, Chapo) + 8 large-font bullets (Gaza, Iraq Hartha,
+EU budget, EU–Indonesia, Oman, Harden 51, Bolsonaro, India alcohol).
+Region recount: ME 6 · EU 5 · AM 6 · AP 2 · AF 1 · SP 1 = 21.
+
+DROPPED from v2.1's ALSO list (14): FBI (borderline Friday dating — CNN
+first reported Friday, AP confirmed Saturday; Fura explicitly ordered no
+borderline items); Sparta II, Kharkiv, Baltiysk (Baltic/Ukraine maritime
+overlap — Sparta II + Baltiysk both Baltic maritime, Kharkiv overlaps
+Kryvyi Rih Ukraine coverage); NATO/Rutte (overlaps Poland/NATO thread);
+Gripen (overlaps Poland/NATO thread); Riemann (unaccepted AI-proof claim);
+Araghchi (overlaps Trump–Iran mini); CAF + Cavalry FC (minor vs Harden);
+Brazil Wolbachia/dengue (its KPI replaced by 60 Houthi targets hit);
+Gulf F-16 denial (covered by the Iran–Bahrain mini's CENTCOM note); Leeds
+(second sports item); France–Myanmar (UN diplomacy, least consequential).
+All 14 were verified Saturday items in the v2.1 audit — dropped for
+legibility (density), not for failing verification, except FBI (dating).
+
+VISUAL SYSTEM (Fura's direction 22 Nov 22:56 WIB, after studying the #1
+entry's readability): broadsheet newspaper — warm cream paper, black
+serif display masthead (DejaVu Serif Bold, vendored beside the existing
+DejaVu Sans fonts, same family), thin rules between sections, big-number
+KPI strip with labels, serif hero headlines, even mini grid, roomy map.
+Readability devices only — no content, text, or layout copied from any
+other entry. The #1 entry proves the problem is hierarchy + typography +
+spacing, not story count alone (it carries 37 stories and still reads).
+
+FIXES vs the first v2.2 render: F1 headline now complete ("...GETS POLE",
+fallback extended to FB12/FB11); Kryvyi Rih headline complete ("...HOMETOWN");
+Iran body trimmed to 2 lines ("IRGC claims 2 US bases hit. Bahrain: blaze,
+no injuries."); DATE CHECK second line moved up so the box border no
+longer touches its descenders.
+
+GATES (all pass): deterministic sha256
+e393cff702d8cce2d5efef45f1cda295aac7169eb77422168ad11eb0547ad794
+(two foreign-cwd runs byte-identical); 1024x1024, entry.png, 187,753 bytes
+(target ~180–230 KB); No-Pillow fallback byte-identical; 300px downscale
+inspected (masthead, numbers, hero/mini headlines, map, bullets all read
+as structure, no grey wall); local duel v2.2 vs v2.1 (lexicographic #1→#5)
+wins on #3 (margin 3) and #5 (margin 2), ties #1 and #2, wins #4 (margin
+1) — local simulated margins, NOT a platform-judge prediction; kit check
+on kit-dl-v3: 4 pass (competition_open, snapshot, license_osi, entrypoint),
+1 fail (transcripts_present — expected at build stage, parent bundles at
+submit), 14 skipped, 5 checked at submission. NOT pushed, bundled, or
+submitted — prepared for Fura's final approval at the 06:15 WIB
+checkpoint, 23 Nov 2026 (T-45, entries close 07:00 WIB).
