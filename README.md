@@ -1,31 +1,47 @@
-# news-image-20261121 — The World in One Day
+[![make.fun](https://make.fun/badge/news-image-20261121.svg)](https://make.fun/bounty/news-image-20261121)
+[![rank](https://make.fun/badge/news-image-20261121/seannbeez/news-image-20261121/rank.svg)](https://make.fun/bounty/news-image-20261121)
+[![reward](https://make.fun/badge/news-image-20261121/seannbeez/news-image-20261121/reward.svg)](https://make.fun/bounty/news-image-20261121)
 
-[![news-image-20261121](https://make.fun/badge/news-image-20261121.svg)](https://make.fun/c/news-image-20261121)
-[![rank](https://make.fun/badge/news-image-20261121/seannbeez/news-image-20261121/rank.svg)](https://make.fun/c/news-image-20261121)
-[![reward](https://make.fun/badge/news-image-20261121/seannbeez/news-image-20261121/reward.svg)](https://make.fun/c/news-image-20261121)
+# Saturday 21 November 2026 — The World in One Day (v2)
 
-An entry for the [make.fun competition "Sum up 21 November's world news in one image"](https://make.fun/c/news-image-20261121): one image summing up the world's news of **Saturday 21 November 2026**.
+One image that sums up Saturday 21 November 2026: **35 verified stories** —
+3 illustrated heroes, 10 illustrated minis, and 22 more in the
+"ALSO ON SATURDAY" list — plus a numbered world map, a Saturday UTC
+timeline, a six-number strip, and a two-way DATE CHECK that names the big
+Friday stories we deliberately left out.
 
-## What the image shows
-
-- **3 hero stories**: Russian missiles landing in Poland, COP31 in overtime with no deal yet, and Wall Street in correction.
-- **12 more stories** from Denmark to New Orleans, each with a CONFIRMED / CLAIM / REPORTED badge so the judge can tell verified fact from allegation.
-- **6 giant sourced numbers** under the masthead (3 objects down in Poland, 0 casualties, S&P 500 −3.7%, 200 countries at COP31, 372,000 evacuated ahead of Cyclone Akvan, €7.9bn EU aid to Ukraine).
-- **An hourly UTC timeline** (Friday 02:00 → Saturday late) so Friday events are never disguised as Saturday's.
-- **A two-way DATE CHECK**: what was left out because it happened before Saturday, and the 21 November evidence for what was kept.
-- **A world map** with real continent outlines and pins for every story.
-- Footer: "Disputed claims are attributed, not stated as fact." All 23 stories were verified against two or more independent sources; see [RESEARCH.md](RESEARCH.md) for the verified shortlist, sources, and everything dropped as unverified.
+The day's three heroes are all Saturday: the missile intercepts over
+Riyadh, the M6.7 quake in Peru (00:09 UTC), and COP31 running into Day 13
+in overtime. Every story on the page was checked against two or more
+independent sources; disputed claims are attributed, never stated as fact.
+Full sourcing, including everything we dropped and why, is in
+[RESEARCH.md](RESEARCH.md).
 
 ## How it works
 
-`main.py` (Python 3.13) draws the image with Pillow when available and otherwise copies the vendored `entry.png` (byte-identical to the drawn render), so both runs write the same bytes. No network. Output is exactly `entry.png`, 1024×1024, under 1 MiB.
+`main.py` draws the whole image in code with Pillow — flat vector shapes
+only, no photos, no external images, no network. It writes `entry.png`
+(1024×1024, under 1 MiB) to `$MAKEFUN_OUTPUT_DIR` (default `/output`),
+deterministically: two runs write identical bytes.
+
+Where Pillow is unavailable (the grading container is stdlib-only), the
+program falls back to copying the vendored `entry.png` beside it — the
+same image, produced by this same program.
 
 ```sh
-mkdir -p out && MAKEFUN_OUTPUT_DIR=out python3 main.py
+MAKEFUN_OUTPUT_DIR=out python3 main.py   # writes out/entry.png
 ```
 
-Fonts (DejaVu Sans / DejaVu Sans Bold / DejaVu Serif Bold) are vendored in `fonts/` under their original licence.
+Fonts (DejaVu Sans / Bold / Oblique) are vendored in `fonts/`, downloaded
+fresh from the matplotlib PyPI wheel during the build.
 
-## Referral
+## Verification
 
-Built with make.fun — referral code `ebv85brk`.
+- 300 px downscale inspected: date, numbers strip, heroes and minis read
+  at thumbnail size; the one-liner list is a small-print breadth receipt.
+- Determinism: two runs from a foreign working directory produce
+  byte-identical `entry.png`.
+- `makefun check` run against the fresh level-34 kit (see the build report).
+
+Built for the [make.fun bounty](https://make.fun/bounty/news-image-20261121)
+— try make.fun yourself: https://make.fun/r/ebv85brk
