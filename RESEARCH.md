@@ -426,3 +426,17 @@ C3 +4 — decides the duel — C4 +1, C5 +3); kit check on kit-dl-v3: 4 pass
 14 skipped, 5 checked at submission. NOT pushed, bundled, or submitted —
 prepared for Fura's decision at the 06:15 WIB checkpoint, 23 Nov 2026 (T-45,
 entries close 07:00 WIB).
+
+## v3.1 — 23 Nov 2026 (Fura's readability direction, 05:46 WIB + stories back, 05:47 WIB)
+
+Fura reviewed v3 at 05:46 WIB: "visualnya masih kurang, masih susah dibaca, coba dibentuk seperti koran" — then at 05:47 WIB: "Tambahkan ceritanya kalau gitu" (add the stories back). v3.1 does both: a real broadsheet front page AND ~30 stories.
+
+**Layout (newspaper form, not styling):** ONE lead (Riyadh) with a large scene + huge serif headline + deck; TWO secondary heroes (Peru, COP31) as medium cards; SIX big minis in 2 rows of 3 (headlines FB16, bodies 2 lines); 20 briefs in TWO columns at 13pt with red story numbers + bold keyword lead-ins; the MAP IS DROPPED (its band goes to the briefs — with 29 stories the map crowded the page). Ticker dropped; masthead breathes. White space mandatory: content was cut (Leeds), never the font.
+
+**Kept (29 = the Top-50 minimum):** 3 heroes + 6 minis (Iran–Bahrain, Davao, BepiColombo, Houthi, F1, Chapo) + 20 briefs. The 4 demoted minis (Kryvyi Rih, Bayelsa, Geneva, Trump) return as briefs. Restored from the v2.1 audit (all verified Saturday, 2+ primary sources): Baltiysk ("blasts reported near Baltic Fleet base" — REPORTED, UNITED24: not independently verified), NATO/Rutte, Gripen, Araghchi, CAF ($31.2m profit). NOT restored: Riemann (unaccepted AI-proof claim), Cavalry FC (minor), France–Myanmar (least consequential), Gulf F-16 denial (covered by the Iran mini), Leeds (second sports item — the one cut for 30), FBI (borderline Friday dating — stays out). Region recount: ME 7 · EU 11 · AM 6 · AP 2 · AF 2 · SP 1 = 29. KPI numbers unchanged (3, 6.7, 146, 13, 11, 69%) — all still in the kept set.
+
+**Fix found in the first render:** the COP31 secondary's red number chip 3 overlapped the gold DAY 13 badge at 44px scene height — the badge moved to the scene's top-left (globe is centre-right, top-left is empty). Re-rendered and verified at 2x zoom: no overlap.
+
+**Criterion #1 discipline unchanged:** zero Friday news, 8-tick pure-Saturday timeline, zero "Friday" in news cards, DATE CHECK names Friday as LEFT OUT. No new research, no new stories, no single-source items.
+
+**GATES (all pass):** deterministic sha256 3165897767102a38fb2ea3c75552ca83d8db5a71ddf34c0821bfe45990bdf98a (two foreign-cwd runs byte-identical); 1024×1024, entry.png, 179,449 bytes; No-Pillow fallback byte-identical; no network (grep 0 matches); 300px downscale inspected (reads as a real newspaper front page — masthead, lead headline, KPI numbers, mini headlines, brief columns all legible with white space between every element); local duels (lexicographic #1→#5, simulated — NOT a platform-judge prediction): v3.1 beats v3 (C1 tie, C2 +1, C3 +2, C4 tie, C5 +2) and beats v2.2 (C1 tie, C2 +2, C3 +3, C4 tie, C5 +3); kit check on kit-dl-v3: 4 pass, 1 fail (transcripts_present — expected at build stage, parent bundles at submit), 14 skipped, 5 checked at submission. NOT pushed, bundled, or submitted — prepared for Fura's decision at the 06:15 WIB checkpoint, 23 Nov 2026 (T-45, entries close 07:00 WIB).

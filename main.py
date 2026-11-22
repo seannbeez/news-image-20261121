@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""news-image-20261121 v3 — Saturday-first broadsheet, scenes everywhere.
+"""news-image-20261121 v3.1 — real broadsheet front page.
 
 Draws one 1024x1024 image summing up Saturday 21 November 2026.
-24 stories (was 21 in v2.2): the 10 minis carry full-width flat-vector
-scene strips instead of abstract icon tiles, and 3 consequential one-liners
-are restored from the v2.1 audit (Sparta II, Kharkiv, Brazil Wolbachia).
+29 stories (was 24 in v3): ONE lead (Riyadh) with a huge serif headline,
+two secondary heroes, SIX big minis in 2 rows of 3, and 20 briefs in two
+columns. Fura (05:46 WIB): v3 still read hard — shape it like a real
+newspaper; then (05:47 WIB): add the stories back, ~30. The map is
+DROPPED — its band goes to the briefs. White space is mandatory: if a
+section cannot fit with room to spare, content is cut, never the font.
 Flat vector only: every illustration is drawn in code with Pillow. No
 network, no randomness, no timestamps: two runs write identical bytes.
 
@@ -15,10 +18,12 @@ big-number KPI strip with labels, serif hero headlines, even mini grid,
 roomy map. Readability devices only — no content, text, or layout copied
 from any other entry; every story, number, and source is our own v2.1 audit.
 
-Capacity note (honest): ~30 stories does not fit this canvas at readable
-size — 17 bullets at 12pt need ~255px of vertical space and the map+bullets
-band is 176px. v3 ships 24, the largest count that still reads cleanly at
-300px; forcing 30 would rebuild the grey wall that killed v2.1.
+Capacity note (honest): v3 found ~30 stories does not fit with a map and
+11 single-column bullets. v3.1 reaches 29 — the Top-50 minimum — by
+dropping the map, cutting minis 10 -> 6, and running 20 briefs in two
+columns at 13pt with bold keyword lead-ins. 30 was one brief short:
+Leeds (second sports item) is the cut; every other verified Saturday
+item from the v2.1 audit is in.
 
 Stdlib-only fallback: when Pillow is unavailable (the grading container
 has no Pillow), copy the vendored entry.png beside this file to the output.
@@ -471,17 +476,12 @@ HEROES = [
 ]
 
 MINIS = [
-    dict(pin=12, badge="CLAIM", src="Xinhua · Reuters",
+    dict(pin=4, badge="CLAIM", src="Xinhua · Reuters",
          head="IRAN STRIKES AT US BASES IN BAHRAIN",
          body=("IRGC claims 2 US bases hit. Bahrain: blaze, "
                "no injuries."),
          icon="radar", tint=(27, 42, 68), ic1=WHITE, ic2=RED,
          accent=(176, 58, 44)),
-    dict(pin=4, badge="CONFIRMED", src="CNN · AP",
-         head="DOUBLE-TAP HITS ZELENSKYY'S HOMETOWN",
-         body=("Reported Sat: 2 killed, 60 wounded, incl. 6 children."),
-         icon="rescue", tint=(232, 238, 242), ic1=(120, 130, 145), ic2=RED,
-         accent=(40, 80, 130)),
     dict(pin=5, badge="CONFIRMED", src="AP · CAAP",
          head="JET IN TROUBLE, ALL 146 SAFE",
          body=("767 diverts to Davao on fire warning; all 146 safe."),
@@ -497,27 +497,12 @@ MINIS = [
          body=("Coalition hits 60 Houthi targets: Hodeidah, Sanaa, Taiz."),
          icon="ship", tint=(240, 232, 220), ic1=(90, 100, 115), ic2=AMBER,
          accent=(176, 58, 44)),
-    dict(pin=8, badge="CONFIRMED", src="AP · Reuters",
-         head="BOAT TOLL RISES TO 24 IN BAYELSA",
-         body=("Funeral barge capsized; NEMA Sat: \u226524 dead, 24 rescued."),
-         icon="boat", tint=(222, 236, 240), ic1=(60, 90, 120), ic2=RED,
-         accent=(166, 110, 16)),
-    dict(pin=9, badge="CONFIRMED", src="NPR · AFP",
-         head="KILLER-ROBOT RULES KICKED 2 YEARS ON",
-         body=("128 states agree 03:45 GMT to draft a pact; non-binding."),
-         icon="robot", tint=(236, 238, 240), ic1=(60, 70, 85), ic2=GOLD,
-         accent=(40, 80, 130)),
-    dict(pin=10, badge="CONFIRMED", src="F1 · FIA",
+    dict(pin=8, badge="CONFIRMED", src="F1 · FIA",
          head="ANTONELLI FASTEST, VERSTAPPEN GETS POLE",
          body=("Antonelli fastest; penalty hands pole to Verstappen."),
          icon="f1", tint=(245, 230, 225), ic1=RED, ic2=INK,
          accent=(30, 122, 76)),
-    dict(pin=11, badge="CONFIRMED", src="AP · Breitbart",
-         head="TRUMP: IRAN WANTS A DEAL",
-         body=("'Not one I'll accept,' Trump says; Netanyahu urges strikes."),
-         icon="flags", tint=(235, 238, 242), ic1=WHITE, ic2=RED,
-         accent=(30, 122, 76)),
-    dict(pin=13, badge="CONFIRMED", src="Reuters · CNN",
+    dict(pin=9, badge="CONFIRMED", src="Reuters · CNN",
          head="'EL CHAPO ISIDRO' CAPTURED",
          body=("Seized in Sinaloa raid, announced Sat; 11 killed."),
          icon="cuffs", tint=(238, 236, 228), ic1=(120, 130, 145), ic2=GOLD,
@@ -530,22 +515,36 @@ ICONS = {"missile": icon_missile, "quake": icon_quake, "cop": icon_cop,
          "robot": icon_robot, "f1": icon_f1, "flags": icon_flags,
          "cuffs": icon_cuffs}
 
-# v3: 11 large-font bullets (was 8 in v2.2) — the 3 most consequential
-# restored one-liners from the v2.1 audit (Sparta II, Kharkiv, Brazil),
-# each verified Saturday with 2+ primary sources. FBI stays dropped
-# (borderline Friday dating). One line each at 12pt, 14px spacing.
-BULLETS = [
-    "GAZA — 3 killed in strike on food vehicle",
-    "IRAQ — Hartha power plant fire kills 4, injures ~30",
-    "EU — €1.58tn budget keeps €100bn for Ukraine",
-    "EU–INDONESIA sign 10-year trade deal in Brussels",
-    "OMAN — 2 tankers hit near Khasab (UKMTO)",
-    "HARDEN 51 — passes Kobe for 3rd-most 50-pt games",
-    "BOLSONARO in ICU with bowel obstruction",
-    "INDIA — 11 dead, 180+ in hospital after toxic alcohol",
-    "SPARTA II — cargo ship ablaze off Finland; 16 crew evacuated",
-    "KHARKIV — drone strikes injure 11, incl. 2 children",
-    "BRAZIL — Wolbachia cuts dengue ~69%",
+# v3.1: 20 briefs in TWO columns (was 11 single-column bullets in v3).
+# 3 heroes + 6 minis + 20 briefs = 29 stories (the Top-50 minimum).
+# The 4 demoted minis (Kryvyi Rih, Bayelsa, Geneva, Trump) return as
+# briefs; restored from the v2.1 audit (all verified Saturday, 2+ primary
+# sources): Baltiysk, NATO/Rutte, Gripen, Araghchi, CAF. NOT restored:
+# Riemann (unaccepted AI-proof claim), Cavalry FC (minor), France-Myanmar
+# (least consequential), Gulf F-16 denial (covered by the Iran mini),
+# Leeds (second sports item), FBI (borderline Friday dating - stays out).
+# One line each at 13pt, 16.5px leading, bold keyword lead-in + number.
+BRIEFS = [
+    (10, "GAZA", "3 killed in strike on food vehicle"),
+    (11, "IRAQ", "Hartha plant fire kills 4, injures ~30"),
+    (12, "EU", "€1.58tn budget keeps €100bn for Ukraine"),
+    (13, "EU-INDONESIA", "sign 10-year trade deal"),
+    (14, "OMAN", "2 tankers hit near Khasab (UKMTO)"),
+    (15, "HARDEN 51", "passes Kobe for 3rd-most 50-pt games"),
+    (16, "BOLSONARO", "in ICU with bowel obstruction"),
+    (17, "INDIA", "11 dead, 180+ in hospital, toxic alcohol"),
+    (18, "SPARTA II", "ship ablaze off Finland; 16 evacuated"),
+    (19, "KHARKIV", "drone strikes injure 11, incl. 2 children"),
+    (20, "BRAZIL", "Wolbachia cuts dengue ~69%"),
+    (21, "KRYVYI RIH", "2 killed, 60 wounded, reported Sat"),
+    (22, "BAYELSA", "boat toll rises to 24"),
+    (23, "GENEVA", "killer-robot rules kicked 2 years on"),
+    (24, "TRUMP", "Iran wants a deal - 'Not one I'll accept'"),
+    (25, "BALTIYSK", "blasts reported near Baltic Fleet base"),
+    (26, "NATO", "Rutte vows to defend Poland"),
+    (27, "GRIPEN", "Swedish jet fails to down missile"),
+    (28, "ARAGHCHI", "Iran open to 'equitable' US deal"),
+    (29, "CAF", "$31.2m profit; backs Infantino"),
 ]
 
 # v2.1: Saturday-UTC ticks ONLY. The two FRI ticks (16:08 Davao, 23:00 Riyadh)
@@ -647,8 +646,9 @@ def scene_cop(d, x, y, w, h):
         d.polygon([(x + w * fx, y + h * 0.55), (x + w * (fx + 0.06),
                     y + h * 0.60), (x + w * fx, y + h * 0.65)],
                   fill=GOLD_LT if fx < 0.8 else WHITE)
-    # DAY 13 badge
-    bx0, by0 = x + w - 86, y + 10
+    # DAY 13 badge — v3.1: top-LEFT. The secondary card's number chip
+    # sits top-right and the two collided at 44px scene height.
+    bx0, by0 = x + 10, y + 8
     rr(d, [bx0, by0, bx0 + 76, by0 + 26], 6, fill=GOLD)
     d.text((bx0 + 9, by0 + 5), "DAY 13", font=FB(14), fill=INK)
 
@@ -658,63 +658,54 @@ SCENES = {"riyadh": scene_riyadh, "peru": scene_peru, "cop": scene_cop}
 
 # ---------------------------------------------------------------- sections
 def draw_masthead(d):
-    # v2.2 newspaper masthead: black serif date on cream, double rule,
-    # one-line ticker of our own three hero headlines. (Was a navy block.)
-    d.text((24, 14), "THE WORLD IN ONE DAY", font=FB(11), fill=INK)
+    # v3.1: ticker dropped — the masthead breathes; the date + 29-story
+    # count carry the day. (Was: one-line ticker under the double rule.)
+    d.text((24, 12), "THE WORLD IN ONE DAY", font=FB(11), fill=INK)
     r = "DAY 325 OF 2026"
-    d.text((1012 - 14 - d.textlength(r, font=FB(11)), 14), r, font=FB(11),
+    d.text((1012 - 14 - d.textlength(r, font=FB(11)), 12), r, font=FB(11),
            fill=MUTED)
-    d.text((22, 30), "Saturday 21 November 2026", font=SB(48), fill=INK)
-    r2 = "24 STORIES"
-    d.text((1012 - 14 - d.textlength(r2, font=SB(22)), 32), r2,
+    d.text((22, 26), "Saturday 21 November 2026", font=SB(44), fill=INK)
+    r2 = "29 STORIES"
+    d.text((1012 - 14 - d.textlength(r2, font=SB(22)), 28), r2,
            font=SB(22), fill=INK)
     d.text((1012 - 14 - d.textlength("EVERY STORY VERIFIED", font=FR(10)),
-            58), "EVERY STORY VERIFIED", font=FR(10), fill=MUTED)
+            54), "EVERY STORY VERIFIED", font=FR(10), fill=MUTED)
     d.text((1012 - 14 - d.textlength("2+ INDEPENDENT SOURCES EACH",
-                                     font=FR(10)), 71),
+                                     font=FR(10)), 67),
            "2+ INDEPENDENT SOURCES EACH", font=FR(10), fill=MUTED)
-    d.line([12, 88, 1012, 88], fill=INK, width=3)
-    d.line([12, 93, 1012, 93], fill=INK, width=1)
-    tick = ("Missiles intercepted over Riyadh \u25c6 M6.7 quake shakes "
-            "Peru \u25c6 COP31 Day 13: deal tabled late")
-    tw = d.textlength(tick, font=FO(11))
-    d.text(((1024 - tw) / 2, 97), tick, font=FO(11), fill=INK)
-
+    d.line([12, 82, 1012, 82], fill=INK, width=3)
+    d.line([12, 87, 1012, 87], fill=INK, width=1)
 
 def draw_numbers(d):
-    # v2.2: KPI strip as serif big numbers with labels, ruled top/bottom
-    # (was a grey panel box). Numbers are Saturday-only, recomputed from
-    # the kept 21 stories.
-    d.line([12, 114, 1012, 114], fill=INK, width=2)
-    d.line([12, 168, 1012, 168], fill=INK, width=1)
+    # v3.1: same 6 Saturday-only KPI numbers, moved up (rules 96/150).
+    d.line([12, 96, 1012, 96], fill=INK, width=2)
+    d.line([12, 150, 1012, 150], fill=INK, width=1)
     cw = 1000 / 6
     for i, (num, cap) in enumerate(NUMBERS):
         x0 = 12 + i * cw
         if i:
-            d.line([x0, 122, x0, 160], fill=LINE, width=1)
+            d.line([x0, 104, x0, 142], fill=LINE, width=1)
         cx = x0 + cw / 2
-        f = SB(30)
+        f = SB(29)
         tw = d.textlength(num, font=f)
-        d.text((cx - tw / 2, 120), num, font=f, fill=INK)
+        d.text((cx - tw / 2, 102), num, font=f, fill=INK)
         f2 = FB(10)
         tw2 = d.textlength(cap, font=f2)
-        d.text((cx - tw2 / 2, 152), cap, font=f2, fill=MUTED)
-
+        d.text((cx - tw2 / 2, 134), cap, font=f2, fill=MUTED)
 
 def draw_region(d):
-    d.rectangle([12, 170, 1012, 190], fill=INK)
-    d.rectangle([22, 177, 30, 185], fill=GOLD)
-    d.text((38, 175),
-           "REGIONS — MIDDLE EAST 6  ·  EUROPE 7  ·  AMERICAS 7  ·  "
-           "ASIA-PACIFIC 2  ·  AFRICA 1  ·  SPACE 1    —    24 STORIES IN ALL",
+    d.rectangle([12, 154, 1012, 172], fill=INK)
+    d.rectangle([22, 161, 30, 169], fill=GOLD)
+    d.text((38, 159),
+           "REGIONS — MIDDLE EAST 7  ·  EUROPE 11  ·  AMERICAS 6  ·  "
+           "ASIA-PACIFIC 2  ·  AFRICA 2  ·  SPACE 1    —    29 STORIES IN ALL",
            font=FB(11), fill=WHITE)
 
-
 def draw_timeline(d):
-    d.rectangle([12, 192, 1012, 244], fill=PANEL2, outline=LINE, width=1)
-    d.text((22, 196), "SATURDAY AROUND THE CLOCK — UTC", font=FB(11),
+    d.rectangle([12, 176, 1012, 228], fill=PANEL2, outline=LINE, width=1)
+    d.text((22, 180), "SATURDAY AROUND THE CLOCK — UTC", font=FB(11),
            fill=INK)
-    yline = 212
+    yline = 198
     d.line([22, yline, 1002, yline], fill=INK, width=2)
     cw = 1000 / len(TIMELINE)
     for i, (t, label) in enumerate(TIMELINE):
@@ -726,39 +717,54 @@ def draw_timeline(d):
         d.text((cx - tw / 2, yline + 7), t, font=f, fill=INK)
         f2 = FB(9)
         tw2 = d.textlength(label, font=f2)
-        d.text((cx - tw2 / 2, yline + 20), label, font=f2, fill=INK)
+        d.text((cx - tw2 / 2, yline + 19), label, font=f2, fill=INK)
+
+def draw_lead(d):
+    # v3.1: ONE lead story, broadsheet style — big scene left, huge serif
+    # headline + deck right. (Was: 3 equal hero cards.)
+    h = HEROES[0]
+    x0, y0, w, hh = 12, 234, 1000, 162
+    rr(d, [x0, y0, x0 + w, y0 + hh], 6, fill=CARD, outline=LINE, width=1)
+    SCENES[h["scene"]](d, x0 + 1, y0 + 1, 430, hh - 2)
+    num_chip(d, x0 + 430 - 20, y0 + hh - 20, h["pin"], r=10)
+    tx = x0 + 444
+    d.text((tx, y0 + 8), "LEAD STORY", font=FB(11), fill=RED)
+    hf = SB(34)
+    head_lines = wrap(d, h["head"], hf, 1000 - 444 - 12)
+    if len(head_lines) > 2:
+        hf = SB(30)
+        head_lines = wrap(d, h["head"], hf, 1000 - 444 - 12)
+    draw_lines(d, tx, y0 + 24, head_lines[:2], hf, INK, 38)
+    by = y0 + 24 + len(head_lines[:2]) * 38 + 6
+    body_lines = wrap(d, h["body"], FR(13), 1000 - 444 - 12)
+    draw_lines(d, tx, by, body_lines[:2], FR(13), BLACK, 17)
+    fy = y0 + hh - 18
+    bw = badge(d, tx, fy, h["badge"])
+    d.text((tx + bw + 8, fy + 2), h["src"], font=FR(9), fill=MUTED)
 
 
-def draw_heroes(d):
-    cw = (1000 - 16) / 3
-    for i, h in enumerate(HEROES):
+def draw_secondaries(d):
+    # v3.1: the other two heroes as medium cards, clearly subordinate to
+    # the lead. Scene strip top, 1-line serif headline, 2-line body.
+    cw = (1000 - 8) / 2
+    for i, h in enumerate(HEROES[1:]):
         x0 = 12 + i * (cw + 8)
-        y0, ch = 246, 192
+        y0, ch = 402, 118
         rr(d, [x0, y0, x0 + cw, y0 + ch], 6, fill=CARD, outline=LINE, width=1)
-        # scene shortened 92 -> 82 so the 2-line body clears the badge row:
-        # at 92 the body ink ran 5px under the badge on heroes 1 and 3
-        SCENES[h["scene"]](d, x0 + 1, y0 + 1, cw - 2, 82)
-        num_chip(d, x0 + cw - 20, y0 + 68, h["pin"], r=10)
+        SCENES[h["scene"]](d, x0 + 1, y0 + 1, cw - 2, 44)
+        num_chip(d, x0 + cw - 20, y0 + 30, h["pin"], r=10)
         tx = x0 + 12
-        ty = y0 + 90
-        # v2.2: serif display headlines (newspaper system); step down a
-        # point if the words cannot hold in 2 lines — wording never changes
         hf = SB(19)
         head_lines = wrap(d, h["head"], hf, cw - 24)
-        if len(head_lines) > 2:
-            hf = SB(18)
-            head_lines = wrap(d, h["head"], hf, cw - 24)
-        if len(head_lines) > 2:
+        if len(head_lines) > 1:
             hf = SB(17)
             head_lines = wrap(d, h["head"], hf, cw - 24)
-        draw_lines(d, tx, ty, head_lines[:2], hf, INK, 22)
-        by = ty + len(head_lines[:2]) * 22 + 4
+        draw_lines(d, tx, y0 + 50, head_lines[:1], hf, INK, 23)
         body_lines = wrap(d, h["body"], FR(11), cw - 24)
-        draw_lines(d, tx, by, body_lines[:3], FR(11), BLACK, 14)
-        fy = y0 + ch - 22
+        draw_lines(d, tx, y0 + 72, body_lines[:2], FR(11), BLACK, 14)
+        fy = y0 + ch - 18
         bw = badge(d, tx, fy, h["badge"])
         d.text((tx + bw + 8, fy + 2), h["src"], font=FR(9), fill=MUTED)
-
 
 def mini_scene(d, x, y, w, h, m):
     """Flat-vector scene strip for a mini card (v3): tint sky, darker
@@ -777,144 +783,95 @@ def mini_scene(d, x, y, w, h, m):
 
 
 def draw_minis(d):
-    # v3: scene strips on every mini (was a 32px icon tile). Headlines
-    # stay FB15 full width, bodies 2 lines at FR11, source at bottom —
-    # positions unchanged from v2.2; only the tile row becomes a scene.
-    # Number chip + verification badge float ON the scene (like the
-    # heroes' DAY 13 badge floats over the COP scene).
-    d.text((14, 442), "THE DAY IN TEN — SATURDAY'S OTHER BIG STORIES",
-           font=FB(12), fill=INK)
-    cw, chh, gap = 193, 140, 8
+    # v3.1: SIX minis in 2 rows of 3 (was 10 in 2 rows of 5). Headlines
+    # FB16 (was FB15), bodies 2 lines, scene strip 36. The 4 demoted
+    # minis return as briefs below. No section header — the bands read
+    # on their own and the space goes to the briefs.
+    cw, chh, gap = 326, 118, 11
     for i, m in enumerate(MINIS):
-        col, row = i % 5, i // 5
+        col, row = i % 3, i // 3
         x0 = 12 + col * (cw + gap)
-        y0 = 460 + row * (chh + 4)
+        y0 = 526 + row * (chh + 8)
         rr(d, [x0, y0, x0 + cw, y0 + chh], 5, fill=CARD, outline=LINE,
            width=1)
-        # v3: full-width scene strip (was a 32px icon tile). Accent bar
-        # draws over the scene's top edge; number chip + badge float on
-        # the scene, top-left and top-right.
-        mini_scene(d, x0 + 1, y0 + 1, cw - 2, 49, m)
-        # region accent bar across the card top
+        mini_scene(d, x0 + 1, y0 + 1, cw - 2, 36, m)
         d.rectangle([x0 + 5, y0, x0 + cw - 5, y0 + 5], fill=m["accent"])
-        num_chip(d, x0 + 14, y0 + 16, m["pin"], r=9)
-        # verification badge top-right, beside the tile
+        num_chip(d, x0 + 14, y0 + 15, m["pin"], r=9)
         f_b = FB(9)
         btw = d.textlength(m["badge"], font=f_b)
         bwid = btw + 12
         bx = x0 + cw - 8 - bwid
-        rr(d, [bx, y0 + 12, bx + bwid, y0 + 27], 7,
+        rr(d, [bx, y0 + 8, bx + bwid, y0 + 23], 7,
            fill=BADGE_FILL[m["badge"]])
-        d.text((bx + 6, y0 + 14.5), m["badge"], font=f_b, fill=WHITE)
-        # headline full width, FB15, at most 2 lines (drop a point if the
-        # words cannot hold — wording is never changed). Chain runs to
-        # FB11: F1 ("...GETS POLE") and Kryvyi Rih ("...HOMETOWN") need
-        # FB12 to hold 2 lines; FB11 is the safety step.
-        hf = FB(15)
+        d.text((bx + 6, y0 + 10.5), m["badge"], font=f_b, fill=WHITE)
+        hf = FB(16)
         head_lines = wrap(d, m["head"], hf, cw - 16)
+        if len(head_lines) > 2:
+            hf = FB(15)
+            head_lines = wrap(d, m["head"], hf, cw - 16)
         if len(head_lines) > 2:
             hf = FB(14)
             head_lines = wrap(d, m["head"], hf, cw - 16)
         if len(head_lines) > 2:
             hf = FB(13)
             head_lines = wrap(d, m["head"], hf, cw - 16)
-        if len(head_lines) > 2:
-            hf = FB(12)
-            head_lines = wrap(d, m["head"], hf, cw - 16)
-        if len(head_lines) > 2:
-            hf = FB(11)
-            head_lines = wrap(d, m["head"], hf, cw - 16)
-        draw_lines(d, x0 + 8, y0 + 54, head_lines[:2], hf, INK, 19)
-        # body: 2 dense fact lines, full width
-        body_lines = wrap(d, m["body"], FR(11), cw - 16)
-        draw_lines(d, x0 + 8, y0 + 96, body_lines[:2], FR(11), BLACK, 14)
-        d.text((x0 + 8, y0 + 124), m["src"], font=FR(9), fill=MUTED)
+        draw_lines(d, x0 + 8, y0 + 40, head_lines[:2], hf, INK, 19)
+        body_lines = wrap(d, m["body"], FR(10.5), cw - 16)
+        draw_lines(d, x0 + 8, y0 + 80, body_lines[:2], FR(10.5), BLACK, 13)
+        d.text((x0 + 8, y0 + 107), m["src"], font=FR(9), fill=MUTED)
 
-def draw_map_bullets(d):
-    # v3: map keeps its widened 548px; bullets grow 8 -> 11 at 12pt with
-    # 14px spacing (was 15pt/18px). Both panels sit in the same 748-924
-    # band. 16 pins (13 pictured + 3 restored bullets with distinct
-    # locations); the other 8 bullets have no single mappable location
-    # and are numbered on-card only.
-    # ---- left: numbered world map, widened
-    rr(d, [12, 748, 560, 924], 5, fill=CARD, outline=LINE, width=1)
-    d.text((22, 756), "WHERE IT HAPPENED — 16 PINNED STORIES", font=FB(11),
-           fill=INK)
-    mx0, my0, mw, mh = 18, 772, 536, 132
-    d.rectangle([mx0, my0, mx0 + mw, my0 + mh], fill=(237, 243, 247))
-    for pts in CONTINENTS:
-        d.polygon([ll2xy(lon, lat, mx0, my0, mw, mh) for lon, lat in pts],
-                  fill=(185, 203, 216), outline=(143, 169, 188))
-    for lon, lat, dx, dy, n in PINS:
-        px, py = ll2xy(lon, lat, mx0, my0, mw, mh)
-        cx, cy = px + dx, py + dy
-        # v3: leader lines in muted blue-grey (was black INK) so the
-        # Europe/ME cluster reads as pins, not a black web.
-        d.line([px, py, cx, cy], fill=(143, 169, 188), width=1)
-        d.ellipse([px - 3, py - 3, px + 3, py + 3], fill=RED,
-                  outline=WHITE, width=1)
-        # pin circles r7 with small digits (v2.1): every number stays
-        # readable separately at 300px; the wider map spreads them further.
-        num_chip(d, cx, cy, n, r=7, fs=8)
-    d.text((22, 908),
-           "6 DARMSTADT = BEPICOLOMBO CONTROL — THE CRAFT IS AT MERCURY",
-           font=FR(8.5), fill=MUTED)
-
-    # ---- right: MORE ON SATURDAY, 11 bullets, one line each at 12pt
-    rr(d, [568, 748, 1012, 924], 5, fill=CARD, outline=LINE, width=1)
-    d.text((580, 756), "MORE ON SATURDAY — 11", font=FB(11), fill=INK)
-    for i, item in enumerate(BULLETS):
-        y0 = 772 + i * 14
-        if " — " in item:
-            head, rest = item.split(" — ", 1)
-            lead = head + " — "
-        else:
-            head, rest = item.split(" ", 1)
-            lead = head + " "
-        f1, f2 = FB(12), FR(12)
-        total = (d.textlength(lead, font=f1)
-                 + d.textlength(rest, font=f2))
-        if total > 424:
-            f1, f2 = FB(11), FR(11)
-        d.text((580, y0), "• ", font=f2, fill=RED)
-        bx = 580 + d.textlength("• ", font=f2)
-        d.text((bx, y0), lead, font=f1, fill=INK)
-        d.text((bx + d.textlength(lead, font=f1), y0), rest, font=f2,
-               fill=BLACK)
-
+def draw_briefs(d):
+    # v3.1: 20 briefs in TWO columns (was 11 single-column bullets).
+    # One line each at 13pt, 16px leading, red story number + bold
+    # keyword lead-in so each line scans as its own item.
+    # The map is DROPPED: with 29 stories the map band would crowd the
+    # page; the space goes to the briefs. (CONTINENTS/PINS stay in the
+    # file, unused — the map can return if a later version has room.)
+    d.text((14, 776), "MORE ON SATURDAY — 20", font=FB(12), fill=INK)
+    d.line([12, 792, 1012, 792], fill=LINE, width=1)
+    cols = [(14, 0), (514, 10)]
+    for cx, start in cols:
+        for j in range(10):
+            n, lead, rest = BRIEFS[start + j]
+            y = 800 + j * 16
+            f_n, f_l, f_r = FB(13), FB(13), FR(13)
+            num = "%d" % n
+            x = cx
+            d.text((x, y), num, font=f_n, fill=RED)
+            x += d.textlength(num, font=f_n) + 4
+            d.text((x, y), "\u00b7", font=f_r, fill=MUTED)
+            x += d.textlength("\u00b7", font=f_r) + 4
+            d.text((x, y), lead + " \u2014 ", font=f_l, fill=INK)
+            x += d.textlength(lead + " \u2014 ", font=f_l)
+            d.text((x, y), rest, font=f_r, fill=BLACK)
 
 def draw_datecheck(d):
-    # v2.2: slimmed to 2 short lines (was a full two-column box). Still
-    # names Friday as LEFT OUT and Saturday as IN — the criterion #1 lock.
-    d.rectangle([12, 928, 1012, 974], outline=INK, width=2)
-    d.rectangle([12, 928, 430, 944], fill=INK)
-    d.text((22, 930), "DATE CHECK — WHAT WE LEFT OUT, AND WHAT COUNTS",
+    d.rectangle([12, 963, 1012, 999], outline=INK, width=2)
+    d.rectangle([12, 963, 430, 977], fill=INK)
+    d.text((22, 965), "DATE CHECK — WHAT WE LEFT OUT, AND WHAT COUNTS",
            font=FB(11), fill=WHITE)
-    d.text((22, 947), "LEFT OUT — FRIDAY: ", font=FB(10.5), fill=RED)
+    d.text((22, 978), "LEFT OUT — FRIDAY: ", font=FB(10.5), fill=RED)
     x1 = 22 + d.textlength("LEFT OUT — FRIDAY: ", font=FB(10.5))
-    d.text((x1, 947), LEFT_OUT, font=FR(10.5), fill=BLACK)
-    d.text((22, 959), "IN — SATURDAY: ", font=FB(10.5), fill=GREEN)
+    d.text((x1, 978), LEFT_OUT, font=FR(10.5), fill=BLACK)
+    d.text((22, 988), "IN — SATURDAY: ", font=FB(10.5), fill=GREEN)
     x2 = 22 + d.textlength("IN — SATURDAY: ", font=FB(10.5))
-    d.text((x2, 959), IN_SAT, font=FR(10.5), fill=BLACK)
-
+    d.text((x2, 988), IN_SAT, font=FR(10.5), fill=BLACK)
 
 def draw_footer(d):
-    y = 978
+    y = 1003
     d.text((12, y), "HOW WE CHECKED — ", font=FB(10.5), fill=INK)
     x1 = 12 + d.textlength("HOW WE CHECKED — ", font=FB(10.5))
     d.text((x1, y),
-           "CONFIRMED = 2+ sources agree · CLAIM = one side's claim, "
-           "disputed or unconfirmed · REPORTED = reported Saturday; "
+           "CONFIRMED = 2+ sources agree \u00b7 CLAIM = one side's claim, "
+           "disputed or unconfirmed \u00b7 REPORTED = reported Saturday; "
            "figures may still move",
            font=FR(10.5), fill=BLACK)
-    d.text((12, y + 14), "Disputed claims are attributed, not stated as fact.",
-           font=FB(11), fill=INK)
-    d.text((12, y + 28),
-           "Sources: Reuters · AP · AFP · USGS · ESA · Xinhua · Al Jazeera · "
-           "CNN · FIA · Formula 1 · UKMTO · "
-           "CAAP — full list in RESEARCH.md",
+    d.text((12, y + 11),
+           "Disputed claims are attributed, not stated as fact.   "
+           "Sources: Reuters \u00b7 AP \u00b7 AFP \u00b7 USGS \u00b7 ESA \u00b7 Xinhua \u00b7 "
+           "Al Jazeera \u00b7 CNN \u00b7 FIA \u00b7 Formula 1 \u00b7 UKMTO \u00b7 CAAP \u2014 "
+           "full list in RESEARCH.md",
            font=FR(9.5), fill=MUTED)
-
 
 # ---------------------------------------------------------------- render
 def render():
@@ -924,9 +881,10 @@ def render():
     draw_numbers(d)
     draw_region(d)
     draw_timeline(d)
-    draw_heroes(d)
+    draw_lead(d)
+    draw_secondaries(d)
     draw_minis(d)
-    draw_map_bullets(d)
+    draw_briefs(d)
     draw_datecheck(d)
     draw_footer(d)
     return img
